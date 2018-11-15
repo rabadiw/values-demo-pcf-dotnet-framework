@@ -1,0 +1,10 @@
+---
+applications:
+- name: demo-values
+  buildpacks:
+   - hwc_buildpack
+  command: .cloudfoundry\hwc.exe
+  memory: 512M
+  stack: windows2016
+  services:
+   - wr-sso
