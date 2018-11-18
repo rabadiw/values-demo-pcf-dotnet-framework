@@ -7,4 +7,4 @@ applications:
   memory: 512M
   stack: windows2016
   services:
-   - wr-sso
+   - PivotalSSO

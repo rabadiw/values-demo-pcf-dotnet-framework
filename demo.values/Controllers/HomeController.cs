@@ -26,5 +26,12 @@ namespace demo.values.Controllers
 
       return View();
     }
+
+    [Authorize]
+    public ActionResult Secure()
+    {
+      ViewBag.Message = $"This is a secure message for {User.Identity.Name}";
+      return View("Index");
+    }
   }
 }
