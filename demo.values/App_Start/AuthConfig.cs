@@ -9,6 +9,7 @@ using Steeltoe.Security.Authentication.CloudFoundry.Owin;
 using System;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.Owin.Security.OAuth;
 
 namespace demo.values
 {
@@ -29,21 +30,7 @@ namespace demo.values
 
       });
 
-      var serviceInfos = CloudFoundryServiceInfoCreator.Instance(AppConfig.Configuration);
-      var ssoInfo = serviceInfos.GetServiceInfos<SsoServiceInfo>().FirstOrDefault()
-                      ?? throw new NullReferenceException("Service info for an SSO Provider was not found!");
-
-      app.UseOpenIDConnect(new OpenIDConnectOptions()
-      {
-        ClientID = ssoInfo.ClientId,
-        ClientSecret = ssoInfo.ClientSecret,
-        AuthDomain = ssoInfo.AuthDomain,
-        AppHost = ssoInfo.ApplicationInfo.ApplicationUris.First(),
-        AppPort = 0,
-        //AdditionalScopes = "testgroup",
-        ValidateCertificates = false,
-        CallbackPath = new PathString("/signin-oidc") // Default Callback
-      });
+      app.UseCloudFoundryOpenIdConnect(Configuration);
 
       System.Web.Helpers.AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
     }
